@@ -47,6 +47,14 @@ class TestStudent(unittest.TestCase):
             schedule = self.student.course_schedule()
             self.assertEqual(schedule, "success")
 
+    def test_course_schedule_failed(self):
+        with patch("student.requests.get") as mocked_get:
+            mocked_get.return_value.ok = False
+            mocked_get.return_value.text = "success"
+
+            schedule = self.student.course_schedule()
+            self.assertEqual(schedule, "Soemthing went wrong with the request")
+
 
 if __name__ == "__main__":
     unittest.main()
